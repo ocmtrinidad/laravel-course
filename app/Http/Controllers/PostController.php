@@ -13,10 +13,10 @@ class PostController extends Controller
      */
     public function index()
     {
-        $categories = Category::get();
+
         // paginate uses /views/vendor/pagination/tailwind.blade.php
         $posts = Post::orderBy("created_at", "desc")->paginate(5);
-        return view("dashboard", ["categories" => $categories, "posts" => $posts]);
+        return view("dashboard", ["posts" => $posts]);
     }
 
     /**
