@@ -21,7 +21,7 @@
 
             <div class="mt-8">
                 <div>
-                    @foreach ($posts as $post)
+                    @forelse ($posts as $post)
                         <div
                             class="bg-white border border-gray-200 rounded-lg shadow-sm dark:bg-gray-800 dark:border-gray-700 flex mb-8">
                             <div class="p-5 flex-1">
@@ -46,7 +46,11 @@
                                     src="https://flowbite.com/docs/images/blog/image-1.jpg" alt="" />
                             </a>
                         </div>
-                    @endforeach
+                    @empty
+                        <div class="text-center">
+                            <p class="text-gray-400 py-16">No Posts Found</p>
+                        </div>
+                    @endforelse
                 </div>
                 {{-- php artisan vendor:publish --tag=laravel-pagination to style pagination links  --}}
                 {{ $posts->onEachSide(1)->links() }}
