@@ -16,7 +16,7 @@ class PostController extends Controller
 
         // paginate uses /views/vendor/pagination/tailwind.blade.php
         $posts = Post::orderBy("created_at", "desc")->paginate(5);
-        return view("dashboard", ["posts" => $posts]);
+        return view("post.index", ["posts" => $posts]);
     }
 
     /**

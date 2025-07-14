@@ -9,7 +9,7 @@ Route::get('/', function () {
 });
 
 Route::get(
-    '/dashboard',
+    '/',
     [PostController::class, "index"]
 )->middleware(['auth', 'verified'])->name('dashboard');
 

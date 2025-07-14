@@ -3,7 +3,8 @@
         <div class="max-w-3xl mx-auto sm:px-6 lg:px-8">
             <div class="bg-white overflow-hidden shadow-sm sm:rounded-lg">
                 <div class="p-4 text-gray-900">
-                    {{-- Passing value to component key=value. If passing a variable, prefix with : --}}
+                    {{-- Pass values to component with key=value --}}
+                    {{-- Add a : prefix if passing a variable --}}
                     <x-category-tabs>
                         {{-- Passing values inside tags will be output as {{slot}} --}}
                         No Categories
