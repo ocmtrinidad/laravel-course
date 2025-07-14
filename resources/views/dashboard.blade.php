@@ -14,8 +14,8 @@
             <div class="mt-8">
                 <div>
                     @forelse ($posts as $post)
-                        {{-- Passing a variable to a component --}}
-                        <x-post-item :post="$post" />
+                        {{-- Equivalent to :post="$post" --}}
+                        <x-post-item :$post />
                     @empty
                         <div class="text-center">
                             <p class="text-gray-400 py-16">No Posts Found</p>
