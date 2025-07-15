@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\Category;
 use App\Models\Post;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 
 class PostController extends Controller
 {
@@ -24,7 +25,8 @@ class PostController extends Controller
      */
     public function create()
     {
-        return view("post.create");
+        $categories = Category::get();
+        return view("post.create", ["categories" => $categories]);
     }
 
     /**
@@ -32,7 +34,29 @@ class PostController extends Controller
      */
     public function store(Request $request)
     {
-        dd($request->all());
+        $data = $request->validate([
+            "image" => ["required", "image", "mimes:jpeg,png,jpg,gif,svg", "max:2048"],
+            "title" => "required",
+            "content" => "required",
+            "category_id" => ["required", "exists:categories,id"],
+            "published_at" => ["nullable", "datetime"]
+        ]);
+
+        // Save and remove image from $data. Image needs to be processed before creating Post.
+        $image = $data["image"];
+        unset($data["image"]);
+        // Add user_id to $data.
+        $data["user_id"] = Auth::id();
+        // Generate slug based on title.
+        $data["slug"] = \Illuminate\Support\Str::slug($data["title"]);
+        // store("FOLDER", "DISC"). Use php artisan storage:link.
+        // USE CLOUDINARY INSTEAD THEN STORE CLOUDINARY LINK TO DATABASE.
+        $imagePath = $image->store("posts", "public");
+        // Add new image path to $data.
+        $data["image"] = $imagePath;
+
+        Post::create($data);
+        return redirect()->route("dashboard");
     }
 
     /**
