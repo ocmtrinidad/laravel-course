@@ -37,13 +37,12 @@ class PostController extends Controller
     {
         $data = $request->validated();
 
-        // Save and remove image from $data. Image needs to be processed before creating Post.
-        $image = $data["image"];
-        unset($data["image"]);
         // Add user_id to $data.
         $data["user_id"] = Auth::id();
         // Generate slug based on title.
         $data["slug"] = \Illuminate\Support\Str::slug($data["title"]);
+        // Image needs to be processed before creating Post.
+        $image = $data["image"];
         // store("FOLDER", "DISC"). Use php artisan storage:link.
         // USE CLOUDINARY INSTEAD THEN STORE CLOUDINARY LINK TO DATABASE.
         $imagePath = $image->store("posts", "public");
