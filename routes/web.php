@@ -15,6 +15,9 @@ Route::middleware(["auth", "verified"])->group(function () {
         ->name("post.create");
     Route::post("/post/create", [PostController::class, "store"])
         ->name("post.store");
+    // Calls show(string username, Post post)
+    // post:slug means url will display slug
+    Route::get("/@{username}/{post:slug}", [PostController::class, "show"])->name("post.show");
 });
 
 Route::middleware('auth')->group(function () {
