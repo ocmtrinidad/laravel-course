@@ -34,7 +34,7 @@
 
         <div class="flex items-center justify-end mt-4">
             <div class="flex gap-2">
-                <a href="/register"
+                <a href="{{ route('register') }}"
                     class="underline text-sm text-gray-600 hover:text-gray-900 rounded-md focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500">
                     Register here!
                 </a>
