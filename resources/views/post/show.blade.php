@@ -14,7 +14,8 @@
                     @endif
                     <div>
                         <div class="flex gap-2">
-                            <a href="{{ route('profile.show', ['user' => $post->user]) }}">{{ $post->user->name }}</a>
+                            <a href="{{ route('profile.show', ['user' => $post->user]) }}"
+                                class="hover:underline">{{ $post->user->name }}</a>
                             <a href="#" class="text-emerald-500">Follow</a>
                         </div>
                         <div class="flex gap-2 text-gray-500 text-sm">
