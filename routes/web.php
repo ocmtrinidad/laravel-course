@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\FollowerController;
 use App\Http\Controllers\PostController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\PublicProfileController;
@@ -19,6 +20,8 @@ Route::middleware(["auth", "verified"])->group(function () {
     // Calls show(string username, Post post)
     // post:slug means url will display slug
     Route::get("/@{username}/{post:slug}", [PostController::class, "show"])->name("post.show");
+
+    Route::post("/follow/{user}", [FollowerController::class, "toggleFollow"])->name("follow");
 });
 
 Route::get("/@{user:username}", [PublicProfileController::class, "show"])->name("profile.show");
