@@ -56,7 +56,7 @@ class PostController extends Controller
     /**
      * Display the specified resource.
      */
-    // Parameters are username and post because route is being called with both values.
+    // Parameters are username and post because route is being called with both values even if were not using $username.
     public function show(string $username, Post $post)
     {
         return view("post.show", ["post" => $post]);
