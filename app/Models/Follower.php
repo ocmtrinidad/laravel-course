@@ -10,7 +10,7 @@ class Follower extends Model
     /** @use HasFactory<\Database\Factories\FollowerFactory> */
     use HasFactory;
 
-    protected const UPDATED_AT = null;
+    public const UPDATED_AT = null;
 
     protected $fillable = [
         "user_id",
