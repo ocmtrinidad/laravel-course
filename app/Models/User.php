@@ -57,13 +57,15 @@ class User extends Authenticatable implements MustVerifyEmail
         return $this->hasMany(Post::class);
     }
 
+    // Returns list of users this user is following
     public function following()
     {
         // belongsToMany(model, table, sender, receiver)
         return $this->belongsToMany(User::class, "followers", "follower_id", "user_id");
     }
 
-    public function follower()
+    // Returns list of users this user is followed by
+    public function followers()
     {
         return $this->belongsToMany(User::class, "followers", "user_id", "follower_id");
     }
@@ -75,5 +77,11 @@ class User extends Authenticatable implements MustVerifyEmail
         };
 
         return null;
+    }
+
+    // Checks if $this user (The user whos page were looking at) is followed by $user (logged in user)
+    public function isFollowedBy(User $user)
+    {
+        return $this->followers()->where("follower_id", $user->id)->exists();
     }
 }
