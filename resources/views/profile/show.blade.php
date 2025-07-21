@@ -16,22 +16,7 @@
                         </div>
                     </div>
                     {{-- x-data="{}" turns element to Alpine.js with js object --}}
-                    <div x-data="{
-                        followerCount: {{ $user->followers()->count() }},
-                        following: {{ $user->isFollowedBy(auth()->user()) ? 'true' : 'false' }},
-                        follow() {
-                            this.following = !this.following
-                            {{-- Alpine.js uses axios to handle requests --}}
-                            axios.post('/follow/{{ $user->id }}')
-                                .then(res => {
-                                    console.log(res.data)
-                                    this.followerCount = res.data.followerCount
-                                })
-                                .catch(err => {
-                                    console.log(err)
-                                })
-                        },
-                    }" class="w-[320px] border-l px-8">
+                    <x-follow-container :$user class="w-[320px] border-l px-8">
                         <x-user-avatar :$user size="w-24 h-24" />
                         <h3>{{ $user->name }}</h3>
                         <p>
@@ -50,7 +35,7 @@
                                 </button>
                             </div>
                         @endif
-                    </div>
+                    </x-follow-container>
                 </div>
             </div>
         </div>
