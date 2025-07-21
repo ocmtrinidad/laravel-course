@@ -15,7 +15,6 @@
                             @endforelse
                         </div>
                     </div>
-                    {{-- x-data="{}" turns element to Alpine.js with js object --}}
                     <x-follow-container :$user class="w-[320px] border-l px-8">
                         <x-user-avatar :$user size="w-24 h-24" />
                         <h3>{{ $user->name }}</h3>
@@ -26,7 +25,7 @@
                         <p>{{ $user->bio }}</p>
                         @if (auth()->user() && auth()->user()->id !== $user->id)
                             <div>
-                                {{-- @click calls follow() from x-data to change following variable --}}
+                                {{-- @click calls follow() from x-follow-container --}}
                                 {{-- Looks like there is an error with follow(), but it is correct  --}}
                                 {{-- x-text uses Alpine.js to output a text --}}
                                 {{-- :class uses Alpine.js to determine class --}}
