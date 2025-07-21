@@ -15,16 +15,41 @@
                             @endforelse
                         </div>
                     </div>
-                    <div class="w-[320px] border-l px-8">
+                    {{-- x-data="{}" turns element to Alpine.js with js object --}}
+                    <div x-data="{
+                        followerCount: {{ $user->followers()->count() }},
+                        following: {{ $user->isFollowedBy(auth()->user()) ? 'true' : 'false' }},
+                        follow() {
+                            this.following = !this.following
+                            {{-- Alpine.js uses axios to handle requests --}}
+                            axios.post('/follow/{{ $user->id }}')
+                                .then(res => {
+                                    console.log(res.data)
+                                    this.followerCount = res.data.followerCount
+                                })
+                                .catch(err => {
+                                    console.log(err)
+                                })
+                        },
+                    }" class="w-[320px] border-l px-8">
                         <x-user-avatar :$user size="w-24 h-24" />
                         <h3>{{ $user->name }}</h3>
-                        <p class="text-gray-500">26K Followers</p>
+                        <p>
+                            <span class="text-gray-500" x-text="followerCount"></span>
+                            Followers
+                        </p>
                         <p>{{ $user->bio }}</p>
-                        <div>
-                            <button class="bg-emerald-600 rounded-full px-4 py-2 text-white">
-                                Follow
-                            </button>
-                        </div>
+                        @if (auth()->user() && auth()->user()->id !== $user->id)
+                            <div>
+                                {{-- @click calls follow() from x-data to change following variable --}}
+                                {{-- Looks like there is an error with follow(), but it is correct  --}}
+                                {{-- x-text uses Alpine.js to output a text --}}
+                                {{-- :class uses Alpine.js to determine class --}}
+                                <button @click="follow()" class="rounded-full px-4 py-2 text-white"
+                                    x-text="following ? 'Unfollow' : 'Follow'":class="following ? 'bg-red-600' : 'bg-emerald-600'">
+                                </button>
+                            </div>
+                        @endif
                     </div>
                 </div>
             </div>
