@@ -10,20 +10,17 @@ class LikeController extends Controller
 {
     public function like(Post $post)
     {
-        $liked = false;
         $hasLiked = $post->likes()->where("user_id", Auth::user()->id)->exists();
         if (!$hasLiked) {
             $post->likes()->create([
                 "user_id" => Auth::user()->id
             ]);
-            $liked = true;
         } else {
             $post->likes()->where("user_id", Auth::user()->id)->delete();
         }
 
         return response()->json([
-            "likesCount" => $post->likes()->count(),
-            "liked" => $liked
+            "likesCount" => $post->likes()->count()
         ]);
     }
 }
