@@ -21,7 +21,7 @@
                     </div>
                 </div>
 
-                <x-clap-button>3.4k</x-clap-button>
+                <x-like-button>3.4k</x-like-button>
 
                 <div class="mt-8">
                     <img src="{{ $post->imageUrl() }}" alt="{{ $post->title }}" class="w-full">
@@ -34,7 +34,7 @@
                     <span class ="px-4 py-2 bg-gray-200 rounded-xl">{{ $post->category->name }}</span>
                 </div>
 
-                <x-clap-button>3.4k</x-clap-button>
+                <x-like-button>3.4k</x-like-button>
             </div>
         </div>
     </div>
