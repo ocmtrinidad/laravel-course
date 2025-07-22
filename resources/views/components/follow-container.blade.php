@@ -9,7 +9,6 @@
         {{-- Alpine.js uses axios to handle requests --}}
         axios.post('/follow/{{ $user->id }}')
             .then(res => {
-                console.log(res.data)
                 this.followerCount = res.data.followerCount
             })
             .catch(err => {
