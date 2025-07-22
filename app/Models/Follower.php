@@ -10,6 +10,7 @@ class Follower extends Model
     /** @use HasFactory<\Database\Factories\FollowerFactory> */
     use HasFactory;
 
+    // For making updated_at field in table null. There will be an error without this. Can also just generate updated_at in migration file.
     public const UPDATED_AT = null;
 
     protected $fillable = [
