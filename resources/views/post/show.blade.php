@@ -9,9 +9,11 @@
                         <x-follow-container :user="$post->user" class="flex gap-2">
                             <a href="{{ route('profile.show', ['user' => $post->user]) }}"
                                 class="hover:underline">{{ $post->user->name }}</a>
-                            <button @click=follow() :class="following ? 'text-red-600' : 'text-emerald-600'"
-                                x-text="following ? 'Unfollow' : 'Follow'">
-                            </button>
+                            @auth
+                                <button @click=follow() :class="following ? 'text-red-600' : 'text-emerald-600'"
+                                    x-text="following ? 'Unfollow' : 'Follow'">
+                                </button>
+                            @endauth
                         </x-follow-container>
                         <div class="flex gap-2 text-gray-500 text-sm">
                             <p>{{ $post->readTime() }} min read</p>
