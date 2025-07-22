@@ -81,8 +81,12 @@ class User extends Authenticatable implements MustVerifyEmail
     }
 
     // Checks if $this user (The user whos page were looking at) is followed by $user (logged in user)
-    public function isFollowedBy(User $user)
+    public function isFollowedBy(?User $user)
     {
+        // If user is not logged in and authenticated
+        if (!$user) {
+            return false;
+        }
         return $this->followers()->where("follower_id", $user->id)->exists();
     }
 
