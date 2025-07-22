@@ -20,7 +20,7 @@
                         <h3>{{ $user->name }}</h3>
                         <p>
                             <span class="text-gray-500" x-text="followerCount"></span>
-                            Followers
+                            <span x-text="followerCount !== 1 ? 'Followers' : 'Follower'"></span>
                         </p>
                         <p>{{ $user->bio }}</p>
                         @if (auth()->user() && auth()->user()->id !== $user->id)
