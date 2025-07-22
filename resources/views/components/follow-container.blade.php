@@ -5,10 +5,10 @@
     followerCount: {{ $user->followers()->count() }},
     following: {{ $user->isFollowedBy(auth()->user()) ? 'true' : 'false' }},
     follow() {
-        this.following = !this.following
         {{-- Alpine.js uses axios to handle requests --}}
         axios.post('/follow/{{ $user->id }}')
             .then(res => {
+                this.following = !this.following
                 this.followerCount = res.data.followerCount
             })
             .catch(err => {
