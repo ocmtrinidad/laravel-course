@@ -8,6 +8,7 @@ use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Storage;
 
 class User extends Authenticatable implements MustVerifyEmail
@@ -83,5 +84,10 @@ class User extends Authenticatable implements MustVerifyEmail
     public function isFollowedBy(User $user)
     {
         return $this->followers()->where("follower_id", $user->id)->exists();
+    }
+
+    public function hasLiked(Post $post)
+    {
+        return $post->likes()->where("user_id", Auth::user()->id)->exists();
     }
 }
