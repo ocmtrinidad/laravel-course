@@ -52,15 +52,11 @@ class PostController extends Controller
         $data["user_id"] = Auth::id();
         // Generate slug based on title.
         $data["slug"] = \Illuminate\Support\Str::slug($data["title"]);
-        // Image needs to be processed before creating Post.
-        $image = $data["image"];
-        // store("FOLDER", "DISC"). Use php artisan storage:link.
-        // USE CLOUDINARY INSTEAD THEN STORE CLOUDINARY LINK TO DATABASE.
-        $imagePath = $image->store("posts", "public");
-        // Add new image path to $data.
-        $data["image"] = $imagePath;
 
-        Post::create($data);
+        $post = Post::create($data);
+        // addMediaFromRequest() and toMediaCollection() are from /vendor/spatie/laravel-medialibrary/src/InteractsWithMedia.php.
+        // Adds $post->image to a request and adds it to a collection where it is processed by registerMediaConversions().
+        $post->addMediaFromRequest("image")->toMediaCollection();
         return redirect()->route("dashboard");
     }
 
