@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Http\Requests\PostCreateRequest;
 use App\Models\Category;
 use App\Models\Post;
+use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 
@@ -15,9 +16,19 @@ class PostController extends Controller
      */
     public function index()
     {
+        // auth()->user() works, intelephense just sees it as an error.
+        $user = auth()->user();
+
+        $query = Post::latest();
+
+        if ($user) {
+            // pluck("") uses a join query (hence users.id) to get ids the current user is following.
+            $ids = $user->following()->pluck("users.id");
+            $query->whereIn("user_id", $ids);
+        }
 
         // paginate uses /views/vendor/pagination/tailwind.blade.php
-        $posts = Post::orderBy("created_at", "desc")->paginate(5);
+        $posts = $query->paginate(5);
         return view("post.index", ["posts" => $posts]);
     }
 
@@ -84,5 +95,12 @@ class PostController extends Controller
     public function destroy(Post $post)
     {
         //
+    }
+
+    public function category(Category $category)
+    {
+        $posts = $category->posts()->latest()->paginate(5);
+
+        return view("post.index", ["posts" => $posts]);
     }
 }
