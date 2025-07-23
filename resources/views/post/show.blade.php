@@ -17,8 +17,7 @@
                         </x-follow-container>
                         <div class="flex gap-2 text-gray-500 text-sm">
                             <p>{{ $post->readTime() }} min read</p>
-                            {{-- format("M d, Y") cases can be changed, and "," can be removed --}}
-                            <p>{{ $post->created_at->format('M d, Y') }}</p>
+                            <p>{{ $post->formattedCreatedAt() }}</p>
                         </div>
                     </div>
                 </div>
