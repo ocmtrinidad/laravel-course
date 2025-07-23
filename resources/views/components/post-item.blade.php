@@ -27,7 +27,11 @@
                 </x-primary-button>
             </a>
         </div>
-        <a href="#">
+        <a
+            href="{{ route('post.show', [
+                'username' => $post->user->username,
+                'post' => $post,
+            ]) }}">
             {{-- Get picture  --}}
             <img class="rounded-r-lg w-48 h-full object-cover" src="{{ $post->imageUrl('preview') }}" />
         </a>
