@@ -29,7 +29,7 @@
         </div>
         <a href="#">
             {{-- Get picture  --}}
-            <img class="rounded-r-lg w-48 h-full object-cover" src="{{ Storage::url($post->image) }}" />
+            <img class="rounded-r-lg w-48 h-full object-cover" src="{{ $post->imageUrl('preview') }}" />
         </a>
     </div>
 </div>
