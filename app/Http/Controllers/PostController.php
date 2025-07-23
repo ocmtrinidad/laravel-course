@@ -5,7 +5,6 @@ namespace App\Http\Controllers;
 use App\Http\Requests\PostCreateRequest;
 use App\Models\Category;
 use App\Models\Post;
-use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 
@@ -19,7 +18,8 @@ class PostController extends Controller
         // auth()->user() works, intelephense just sees it as an error.
         $user = auth()->user();
 
-        $query = Post::latest();
+        // withCount("likes") returns as likes_count
+        $query = Post::with(["user", "media"])->withCount("likes")->latest();
 
         if ($user) {
             // pluck("") uses a join query (hence users.id) to get ids the current user is following.
@@ -95,7 +95,7 @@ class PostController extends Controller
 
     public function category(Category $category)
     {
-        $posts = $category->posts()->latest()->paginate(5);
+        $posts = $category->posts()->with(["user", "media"])->withCount("likes")->latest()->paginate(5);
 
         return view("post.index", ["posts" => $posts]);
     }
