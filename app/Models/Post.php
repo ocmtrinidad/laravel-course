@@ -68,4 +68,9 @@ class Post extends Model implements HasMedia
     {
         return $this->belongsTo(Category::class);
     }
+
+    public function formattedCreatedAt()
+    {
+        return $this->created_at->format("M d, Y");
+    }
 }
