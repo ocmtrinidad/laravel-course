@@ -8,6 +8,8 @@ use Illuminate\Support\Facades\Storage;
 use Spatie\MediaLibrary\HasMedia;
 use Spatie\MediaLibrary\InteractsWithMedia;
 use Spatie\MediaLibrary\MediaCollections\Models\Media;
+use Spatie\Sluggable\HasSlug;
+use Spatie\Sluggable\SlugOptions;
 
 // implements HasMedia for using Spatie Media Library
 class Post extends Model implements HasMedia
@@ -15,6 +17,7 @@ class Post extends Model implements HasMedia
     use HasFactory;
     // use InteractsWithMedia for using Spatie Media Library
     use InteractsWithMedia;
+    use HasSlug;
 
     protected $fillable = [
         "title",
@@ -36,6 +39,23 @@ class Post extends Model implements HasMedia
         // ->nonQueued();
 
         $this->addMediaConversion("large")->width(1200);
+    }
+
+    // Adds image to default collection then deletes previous related image
+    public function registerMediaCollections(): void
+    {
+        $this->addMediaCollection("default")->singleFile();
+    }
+
+    /**
+     * Get the options for generating the slug.
+     */
+    // From spatie/laravel-sluggable
+    public function getSlugOptions(): SlugOptions
+    {
+        return SlugOptions::create()
+            ->generateSlugsFrom('title')
+            ->saveSlugsTo('slug');
     }
 
     // Get User relationship data
