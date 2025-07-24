@@ -90,7 +90,14 @@ class User extends Authenticatable implements MustVerifyEmail, HasMedia
     public function imageUrl()
     {
         // Get image from avatar
-        return $this->getFirstMedia("avatar")?->getUrl("avatar");
+        $media = $this->getFirstMedia("avatar");
+        if (!$media) {
+            return null;
+        }
+        if ($media->hasGenerastedConversion("avatar")) {
+            return $media->getUrl("avatar");
+        }
+        return $media->getUrl();
     }
 
     // Checks if $this user (The user whos page were looking at) is followed by $user (logged in user)

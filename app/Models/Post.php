@@ -61,7 +61,16 @@ class Post extends Model implements HasMedia
     public function imageUrl($conversionName = "")
     {
         // getFirstMedia()->getUrl() is from spatie. getUrl() or getUrl("preview") determines the image type to return.
-        return $this->getFirstMedia()->getUrl($conversionName);
+        $media = $this->getFirstMedia();
+        // If no Spatie image return null.
+        if (!$media) {
+            return null;
+        }
+        // If there is a Spatie image of a specific type, return it.
+        if ($media->hasGeneratedConversion($conversionName)) {
+            return $media->getUrl($conversionName);
+        }
+        return $media->getUrl();
     }
 
     public function category()
