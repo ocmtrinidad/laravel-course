@@ -28,8 +28,8 @@ class Post extends Model implements HasMedia
     // Import Media
     public function registerMediaConversions(?Media $media = null): void
     {
+        // addMediaConversion("name") determines the name to call image
         $this
-            // addMediaConversion("name") determines the name to call image
             ->addMediaConversion('preview')
             ->width(400);
         // Without nonQueued() conversion happens in the background (in the queue)
