@@ -49,12 +49,8 @@ class PostController extends Controller
     public function store(PostCreateRequest $request)
     {
         $data = $request->validated();
-
         // Add user_id to $data.
         $data["user_id"] = Auth::id();
-        // Generate slug based on title.
-        $data["slug"] = \Illuminate\Support\Str::slug($data["title"]);
-
         $post = Post::create($data);
         // addMediaFromRequest("name") and toMediaCollection("destination") are from /vendor/spatie/laravel-medialibrary/src/InteractsWithMedia.php.
         // Adds $post->image to a request and adds it to a collection where it is processed by registerMediaConversions().
