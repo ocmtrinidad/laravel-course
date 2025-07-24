@@ -30,13 +30,14 @@
                 @auth
                     @if (auth()->user()->id === $post->user_id)
                         <div class="border-t pt-4">
-                            <x-primary-button>Edit Post</x-primary-button>
+                            <x-primary-button>
+                                <a href="{{ route('post.edit', $post->slug) }}">Edit Post</a>
+                            </x-primary-button>
                             <form action="{{ route('post.destroy', $post->id) }}" method="post" class="inline-block">
                                 @csrf
                                 @method('delete')
                                 <x-danger-button>Delete Post</x-danger-button>
                             </form>
-
                         </div>
                     @endif
                 @endauth
