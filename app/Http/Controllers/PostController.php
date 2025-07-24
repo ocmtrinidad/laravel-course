@@ -99,4 +99,12 @@ class PostController extends Controller
 
         return view("post.index", ["posts" => $posts]);
     }
+
+    public function myPosts()
+    {
+        $user = auth()->user();
+        $posts = $user->posts()->with(["user", "media"])->withCount("likes")->latest()->paginate(5);
+
+        return view("post.index", ["posts" => $posts]);
+    }
 }
