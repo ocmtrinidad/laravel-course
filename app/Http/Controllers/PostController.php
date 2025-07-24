@@ -29,6 +29,7 @@ class PostController extends Controller
 
         // paginate uses /views/vendor/pagination/tailwind.blade.php
         $posts = $query->paginate(5);
+
         return view("post.index", ["posts" => $posts]);
     }
 
@@ -38,6 +39,7 @@ class PostController extends Controller
     public function create()
     {
         $categories = Category::get();
+
         return view("post.create", ["categories" => $categories]);
     }
 
@@ -57,6 +59,7 @@ class PostController extends Controller
         // addMediaFromRequest("name") and toMediaCollection("destination") are from /vendor/spatie/laravel-medialibrary/src/InteractsWithMedia.php.
         // Adds $post->image to a request and adds it to a collection where it is processed by registerMediaConversions().
         $post->addMediaFromRequest("image")->toMediaCollection();
+
         return redirect()->route("dashboard");
     }
 
@@ -74,15 +77,29 @@ class PostController extends Controller
      */
     public function edit(Post $post)
     {
-        //
+        if (Auth::id() !== $post->user_id) {
+            abort(403);
+        }
+        $categories = Category::get();
+
+        return view("post.edit", ["post" => $post, "categories" => $categories]);
     }
 
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, Post $post)
+    public function update(PostCreateRequest $request, Post $post)
     {
-        //
+        if (Auth::id() !== $post->user_id) {
+            abort(403);
+        }
+        $data = $request->validated();
+        $post->update($data);
+        if ($data["image"] ?? false) {
+            $post->addMediaFromRequest("image")->toMediaCollection();
+        }
+
+        return redirect()->route("myPosts");
     }
 
     /**
