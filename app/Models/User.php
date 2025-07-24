@@ -63,7 +63,6 @@ class User extends Authenticatable implements MustVerifyEmail, HasMedia
             ->crop(128, 128);
     }
 
-    // Adds image to avatar collection then deletes previous related avatar
     public function registerMediaCollections(): void
     {
         $this->addMediaCollection("avatar")->singleFile();
