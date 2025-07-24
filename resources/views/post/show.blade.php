@@ -5,16 +5,21 @@
                 <h1 class="text-2xl">{{ $post->title }}</h1>
                 <div class="flex gap-4">
                     <x-user-avatar :user="$post->user" />
-                    <div>
+                    <div class="flex flex-col">
+
                         <x-follow-container :user="$post->user" class="flex gap-2">
                             <a href="{{ route('profile.show', ['user' => $post->user]) }}"
                                 class="hover:underline">{{ $post->user->name }}</a>
                             @auth
-                                <button @click=follow() :class="following ? 'text-red-600' : 'text-emerald-600'"
-                                    x-text="following ? 'Unfollow' : 'Follow'">
-                                </button>
+                                @if (auth()->user()->id !== $post->user->id)
+                                    <button @click=follow() :class="following ? 'text-red-600' : 'text-emerald-600'"
+                                        x-text="following ? 'Unfollow' : 'Follow'">
+                                    </button>
+                                @endif
                             @endauth
+
                         </x-follow-container>
+
                         <div class="flex gap-2 text-gray-500 text-sm">
                             <p>{{ $post->readTime() }} min read</p>
                             <p>{{ $post->formattedCreatedAt() }}</p>
@@ -22,9 +27,19 @@
                     </div>
                 </div>
 
-                <div>
-                    <x-primary-button>Edit Post</x-primary-button>
-                </div>
+                @auth
+                    @if (auth()->user()->id === $post->user_id)
+                        <div class="border-t pt-4">
+                            <x-primary-button>Edit Post</x-primary-button>
+                            <form action="{{ route('post.destroy', $post->id) }}" method="post" class="inline-block">
+                                @csrf
+                                @method('delete')
+                                <x-danger-button>Delete Post</x-danger-button>
+                            </form>
+
+                        </div>
+                    @endif
+                @endauth
 
                 <x-like-button :$post />
 
