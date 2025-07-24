@@ -54,7 +54,7 @@ class PostController extends Controller
         $data["slug"] = \Illuminate\Support\Str::slug($data["title"]);
 
         $post = Post::create($data);
-        // addMediaFromRequest() and toMediaCollection() are from /vendor/spatie/laravel-medialibrary/src/InteractsWithMedia.php.
+        // addMediaFromRequest("name") and toMediaCollection("destination") are from /vendor/spatie/laravel-medialibrary/src/InteractsWithMedia.php.
         // Adds $post->image to a request and adds it to a collection where it is processed by registerMediaConversions().
         $post->addMediaFromRequest("image")->toMediaCollection();
         return redirect()->route("dashboard");
