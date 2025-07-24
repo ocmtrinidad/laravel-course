@@ -1,8 +1,8 @@
 <x-app-layout>
     <div class="py-4">
         <div class="max-w-3xl mx-auto sm:px-6 lg:px-8">
-            <div class="bg-white overflow-hidden shadow-sm sm:rounded-lg p-8">
-                <h1 class="text-2xl mb-4">{{ $post->title }}</h1>
+            <div class="bg-white overflow-hidden shadow-sm sm:rounded-lg p-8 flex flex-col gap-4">
+                <h1 class="text-2xl">{{ $post->title }}</h1>
                 <div class="flex gap-4">
                     <x-user-avatar :user="$post->user" />
                     <div>
@@ -22,16 +22,20 @@
                     </div>
                 </div>
 
+                <div>
+                    <x-primary-button>Edit Post</x-primary-button>
+                </div>
+
                 <x-like-button :$post />
 
-                <div class="mt-8">
+                <div>
                     <img src="{{ $post->imageUrl() }}" alt="{{ $post->title }}" class="w-full">
                     <div class="mt-4">
                         {{ $post->content }}
                     </div>
                 </div>
 
-                <div class="mt-8">
+                <div>
                     <span class ="px-4 py-2 bg-gray-200 rounded-xl">{{ $post->category->name }}</span>
                 </div>
 
