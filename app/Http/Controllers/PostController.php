@@ -21,19 +21,21 @@ class PostController extends Controller
 
         // withCount("likes") returns as likes_count
         $query = Post::with(["user", "media"])
-            ->where("published_at", "<=", now())
-            ->orWhere("published_at", null)
             ->withCount("likes")
             ->latest();
 
         if ($user) {
             // pluck("") uses a join query (hence users.id) to get ids the current user is following.
             $ids = $user->following()->pluck("users.id");
-            $query->whereIn("user_id", $ids);
+            // whereIn() MUST be before orWhere() or else it will get all posts.
+            $query
+                ->where("published_at", "<=", now())
+                ->whereIn("user_id", $ids)
+                ->orWhere("published_at", null);
         }
 
         // paginate uses /views/vendor/pagination/tailwind.blade.php
-        $posts = $query->paginate(5);
+        $posts = $query->where("published_at", "<=", now())->orWhere("published_at", null)->paginate(5);
 
         return view("post.index", ["posts" => $posts]);
     }
@@ -79,7 +81,6 @@ class PostController extends Controller
     public function edit(Post $post)
     {
         if (Auth::id() !== $post->user_id) {
-            // abort(403) returns forbidden.
             abort(403);
         }
         $categories = Category::get();
@@ -110,6 +111,7 @@ class PostController extends Controller
     public function destroy(Post $post)
     {
         if (Auth::id() !== $post->user_id) {
+            // abort(403) returns forbidden.
             abort(403);
         }
         $post->delete();
