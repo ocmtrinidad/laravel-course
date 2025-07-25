@@ -20,7 +20,11 @@ class PostController extends Controller
         $user = auth()->user();
 
         // withCount("likes") returns as likes_count
-        $query = Post::with(["user", "media"])->withCount("likes")->latest();
+        $query = Post::with(["user", "media"])
+            ->where("published_at", "<=", now())
+            ->orWhere("published_at", null)
+            ->withCount("likes")
+            ->latest();
 
         if ($user) {
             // pluck("") uses a join query (hence users.id) to get ids the current user is following.
@@ -75,6 +79,7 @@ class PostController extends Controller
     public function edit(Post $post)
     {
         if (Auth::id() !== $post->user_id) {
+            // abort(403) returns forbidden.
             abort(403);
         }
         $categories = Category::get();
@@ -105,7 +110,6 @@ class PostController extends Controller
     public function destroy(Post $post)
     {
         if (Auth::id() !== $post->user_id) {
-            // abort(403) returns forbidden.
             abort(403);
         }
         $post->delete();
@@ -115,7 +119,13 @@ class PostController extends Controller
 
     public function category(Category $category)
     {
-        $posts = $category->posts()->with(["user", "media"])->withCount("likes")->latest()->paginate(5);
+        $posts = $category->posts()
+            ->where("published_at", "<=", now())
+            ->orWhere("published_at", null)
+            ->with(["user", "media"])
+            ->withCount("likes")
+            ->latest()
+            ->paginate(5);
 
         return view("post.index", ["posts" => $posts]);
     }
