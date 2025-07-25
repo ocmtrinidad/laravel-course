@@ -55,6 +55,13 @@
                         <x-input-error :messages="$errors->get('content')" class="mt-2" />
                     </div>
 
+                    <div>
+                        <x-input-label for="published_at" :value="__('Published At')" />
+                        <x-text-input id="text" class="block mt-1 w-full" type="datetime-local" name="published_at"
+                            :value="old('published_at', $post->published_at)" autofocus />
+                        <x-input-error :messages="$errors->get('published_at')" class="mt-2" />
+                    </div>
+
                     <x-primary-button class="max-w-fit">Submit</x-primary-button>
                 </form>
             </div>
