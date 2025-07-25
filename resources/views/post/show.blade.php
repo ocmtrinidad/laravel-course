@@ -51,8 +51,8 @@
                     </div>
                 </div>
 
-                <div>
-                    <span class ="px-4 py-2 bg-gray-200 rounded-xl">{{ $post->category->name }}</span>
+                <div class="px-4 py-2 bg-gray-200 rounded-xl max-w-fit">
+                    <a href="{{ route('post.byCategory', $post->category) }}">{{ $post->category->name }}</a>
                 </div>
 
                 <x-like-button :$post />
