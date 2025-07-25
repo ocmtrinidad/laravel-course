@@ -93,4 +93,14 @@ class Post extends Model implements HasMedia
     {
         return $this->created_at->format("M d, Y");
     }
+
+    public function formattedPublishedAt()
+    {
+        return date('F j, Y', strtotime($this->published_at));
+    }
+
+    public function checkPublishedAtTime()
+    {
+        return $this->published_at > now();
+    }
 }
