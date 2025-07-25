@@ -1,7 +1,9 @@
 <x-app-layout>
     <div class="py-4">
         <div class="max-w-3xl mx-auto sm:px-6 lg:px-8">
-            <div class="bg-white overflow-hidden shadow-sm sm:rounded-lg p-8 flex flex-col gap-4">
+            <div
+                class="bg-white overflow-hidden shadow-sm sm:rounded-lg p-8 flex flex-col gap-4 
+                {{ $post->checkPublishedAtTime() ? 'border-2 border-red-600' : '' }}">
                 <h1 class="text-2xl">{{ $post->title }}</h1>
                 <div class="flex gap-4">
                     <x-user-avatar :user="$post->user" />
@@ -22,7 +24,7 @@
 
                         <div class="flex gap-2 text-gray-500 text-sm">
                             <p>{{ $post->readTime() }} min read</p>
-                            <p>{{ $post->formattedCreatedAt() }}</p>
+                            <x-date-time-display :$post />
                         </div>
                     </div>
                 </div>
