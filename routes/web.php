@@ -7,15 +7,9 @@ use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\PublicProfileController;
 use Illuminate\Support\Facades\Route;
 
-Route::get('/', function () {
-    return view('welcome');
-});
-
 Route::get('/', [PostController::class, "index"])
     ->name('dashboard');
 
-// Calls show(string username, Post post)
-// post:slug means url will display slug
 Route::get("/@{username}/{post:slug}", [PostController::class, "show"])->name("post.show");
 Route::get("/category/{category:name}", [PostController::class, "category"])->name("post.byCategory");
 
