@@ -11,8 +11,13 @@
             </a>
             <div class="mb-3 font-normal text-gray-700 dark:text-gray-400 flex-1">{{ $post->content }}
             </div>
-            <div class="text-gray-400 text-sm flex items-center gap-2">
-                <p>{{ $post->formattedCreatedAt() }}</p>
+            <div class="text-gray-400 text-sm flex items-center">
+                <p class="mr-1">
+                    By <a href="{{ route('profile.show', $post->user) }}" class="hover:underline text-gray-600">
+                        {{ $post->user->username }}
+                    </a>
+                    at {{ $post->formattedCreatedAt() }}
+                </p>
                 <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5"
                     stroke="currentColor" class="size-5">
                     <path stroke-linecap="round" stroke-linejoin="round"
