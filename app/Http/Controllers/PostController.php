@@ -67,7 +67,7 @@ class PostController extends Controller
         // Adds $post->image to a request and adds it to a collection where it is processed by registerMediaConversions().
         $post->addMediaFromRequest("image")->toMediaCollection();
 
-        return redirect()->route("dashboard");
+        return redirect()->route("myPosts");
     }
 
     /**
