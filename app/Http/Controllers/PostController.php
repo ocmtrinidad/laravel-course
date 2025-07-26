@@ -16,27 +16,31 @@ class PostController extends Controller
      */
     public function index()
     {
-        // auth()->user() works, intelephense just sees it as an error.
-        $user = auth()->user();
-
         // withCount("likes") returns as likes_count
-        $query = Post::with(["user", "media"])
-            ->withCount("likes")
-            ->latest();
-
-        if ($user) {
-            // pluck("") uses a join query (hence users.id) to get ids the current user is following.
-            $ids = $user->following()->pluck("users.id");
-            // whereIn() MUST be before orWhere() or else it will get all posts.
-            $query
-                ->where("published_at", "<=", now())
-                ->whereIn("user_id", $ids)
-                ->orWhere("published_at", null);
-        }
-
         // paginate uses /views/vendor/pagination/tailwind.blade.php
-        $posts = $query->where("published_at", "<=", now())->orWhere("published_at", null)->paginate(5);
+        $posts  = Post::with(["user", "media"])
+            ->withCount("likes")
+            ->latest()
+            ->where("published_at", "<=", now())
+            ->orWhere("published_at", null)
+            ->paginate(5);
 
+        return view("post.index", ["posts" => $posts]);
+    }
+
+    public function feed()
+    {
+        // auth()->user() works, intelephense just sees it as an error.
+        // pluck("") uses a join query (hence users.id) to get ids the current user is following.
+        $ids = auth()->user()->following()->pluck("users.id");
+        // whereIn() MUST be before orWhere() or else it will get all posts.
+        $posts = Post::with(["user", "media"])
+            ->withCount("likes")
+            ->latest()
+            ->where("published_at", "<=", now())
+            ->whereIn("user_id", $ids)
+            ->orWhere("published_at", null)
+            ->paginate(5);
         return view("post.index", ["posts" => $posts]);
     }
 
@@ -134,8 +138,11 @@ class PostController extends Controller
 
     public function myPosts()
     {
-        $user = auth()->user();
-        $posts = $user->posts()->with(["user", "media"])->withCount("likes")->latest()->paginate(5);
+        $posts = auth()->user()->posts()
+            ->with(["user", "media"])
+            ->withCount("likes")
+            ->latest()
+            ->paginate(5);
 
         return view("post.index", ["posts" => $posts]);
     }
