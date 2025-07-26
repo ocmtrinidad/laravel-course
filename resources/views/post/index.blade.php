@@ -13,7 +13,11 @@
                 </div>
             </div>
 
-            <div class="mt-8">
+            <div class="mt-4">
+                @if (Route::currentRouteNamed('myPosts'))
+                    <h2 class="font-bold text-2xl">Your Posts:</h2>
+                @endif
+
                 <div>
                     @forelse ($posts as $post)
                         {{-- Equivalent to :post="$post" --}}
