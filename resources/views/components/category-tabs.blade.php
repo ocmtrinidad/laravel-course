@@ -2,7 +2,7 @@
     <li class="me-2">
         {{-- request('model') gets the binded route model in web.php. --}}
         <a href="{{ route('dashboard') }}"
-            class="{{ request('category') || Route::currentRouteNamed('post.feed')
+            class="{{ request('category') || Route::currentRouteNamed('post.feed') || Route::currentRouteNamed('myPosts')
                 ? ' inline-block px-4 py-2'
                 : ' inline-block px-4 py-2 text-white bg-blue-600 rounded-lg active' }}">
             All
