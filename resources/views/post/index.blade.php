@@ -15,7 +15,7 @@
 
             <div class="mt-4">
                 @if (Route::currentRouteNamed('myPosts'))
-                    <h2 class="font-bold text-2xl">Your Posts:</h2>
+                    <h2 class="font-bold text-2xl">{{ auth()->user()->name }}'s Posts:</h2>
                 @endif
 
                 <div>
