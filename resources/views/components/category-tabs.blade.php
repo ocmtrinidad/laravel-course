@@ -2,12 +2,24 @@
     <li class="me-2">
         {{-- request('model') gets the binded route model in web.php. --}}
         <a href="{{ route('dashboard') }}"
-            class="{{ request('category')
+            class="{{ request('category') || Route::currentRouteNamed('post.feed')
                 ? ' inline-block px-4 py-2'
                 : ' inline-block px-4 py-2 text-white bg-blue-600 rounded-lg active' }}">
             All
         </a>
     </li>
+
+    @auth
+        <li class="me-2">
+            <a href="{{ route('post.feed') }}"
+                class="{{ Route::currentRouteNamed('post.feed')
+                    ? 'inline-block px-4 py-2 text-white bg-blue-600 rounded-lg active'
+                    : 'inline-block px-4 py-2 rounded-lg hover:text-gray-900 hover:bg-gray-100 dark:hover:bg-gray-800 dark:hover:text-white' }}">
+                Feed
+            </a>
+        </li>
+    @endauth
+
     @forelse ($categories as $category)
         <div>
             <li class="me-2">
