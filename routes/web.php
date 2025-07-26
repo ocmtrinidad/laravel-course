@@ -9,7 +9,6 @@ use Illuminate\Support\Facades\Route;
 
 Route::get('/', [PostController::class, "index"])
     ->name('dashboard');
-
 Route::get("/@{username}/{post:slug}", [PostController::class, "show"])->name("post.show");
 Route::get("/category/{category:name}", [PostController::class, "category"])->name("post.byCategory");
 
@@ -22,7 +21,7 @@ Route::middleware(["auth", "verified"])->group(function () {
         ->name("post.destroy");
     Route::get("/post/{post:slug}", [PostController::class, "edit"])->name("post.edit");
     Route::put("/post/{post:slug}", [PostController::class, "update"])->name("post.update");
-
+    Route::get("/feed", [PostController::class, "feed"])->name("post.feed");
     Route::get("/my-posts", [PostController::class, "myPosts"])
         ->name("myPosts");
 
