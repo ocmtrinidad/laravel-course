@@ -1,5 +1,5 @@
 <div
-    class="bg-white border border-gray-200 rounded-lg shadow-sm dark:bg-gray-800 dark:border-gray-700 flex mb-8 {{ $post->checkPublishedAtTime() ? 'border-2 border-red-600' : '' }}">
+    class="bg-white border border-gray-200 rounded-lg shadow-sm dark:bg-gray-800 dark:border-gray-700 flex mb-4 {{ $post->checkPublishedAtTime() ? 'border-2 border-red-600' : '' }}">
     <div class="p-5 flex-1 flex flex-col        ">
         @if ($post->checkPublishedAtTime())
             <h2 class="text-xl text-red-600">Unpublished</h2>
